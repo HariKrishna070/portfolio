@@ -47,7 +47,7 @@ jobs:
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
           # Base URL — replace 'MyReactWebsite' with your actual repo name
-          VITE_BASE_URL: /MyReactWebsite/
+          VITE_BASE_URL: /portfolio/
         run: npm run build
 
       # 5. Upload the built dist/ folder as a GitHub Pages artifact
