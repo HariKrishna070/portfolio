@@ -1,3 +1,5 @@
+import { asset } from '../utils/asset';
+
 const EDUCATION = [
   {
     title: 'Vishnu institute of technology, Bhimavaram',
@@ -40,7 +42,7 @@ const SKILLS_BAR = [
 
 function downloadResume() {
   const anchor = document.createElement('a');
-  anchor.href = '/assets/resume/HARI KRISHNA RESUME.pdf';
+  anchor.href = asset('/assets/resume/HARI KRISHNA RESUME.pdf');
   anchor.download = 'HARI KRISHNA RESUME';
   anchor.click();
 }
