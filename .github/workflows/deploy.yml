@@ -1,0 +1,62 @@
+name: Deploy Portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [main]      # runs every time you push to main
+  workflow_dispatch:       # allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout source code (WITHOUT .env.local — it's gitignored)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: MyReactWebsite/package-lock.json
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        working-directory: MyReactWebsite
+        run: npm ci
+
+      # 4. Build — GitHub Secrets are injected here as env vars
+      #    They are baked into the compiled JS at build time and
+      #    NEVER appear in your GitHub source code or commit history
+      - name: Build
+        working-directory: MyReactWebsite
+        env:
+          # EmailJS credentials — stored securely in GitHub Secrets
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          # Base URL — replace 'MyReactWebsite' with your actual repo name
+          VITE_BASE_URL: /MyReactWebsite/
+        run: npm run build
+
+      # 5. Upload the built dist/ folder as a GitHub Pages artifact
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: MyReactWebsite/dist
+
+      # 6. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
