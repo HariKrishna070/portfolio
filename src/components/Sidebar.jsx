@@ -1,10 +1,12 @@
+import { asset } from '../utils/asset';
+
 function Sidebar({ isOpen, onToggle }) {
   return (
     <aside className={`sidebar${isOpen ? ' active' : ''}`} data-sidebar>
 
       <div className="sidebar-info">
         <figure className="avatar-box">
-          <img id="avatar" src="/assets/images/hari.jpg" alt="HARI KRISHNA BEKKAM" width="80" />
+          <img id="avatar" src={asset('/assets/images/hari.jpg')} alt="HARI KRISHNA BEKKAM" width="80" />
         </figure>
 
         <div className="info-content">
@@ -79,7 +81,7 @@ function Sidebar({ isOpen, onToggle }) {
 
         <div className="separator"></div>
 
-        {/* Social links — gap replaces the &numsp; entity that was rendering as literal text */}
+        {/* Social links */}
         <ul className="social-list" style={{ gap: '12px' }}>
           <li className="social-item">
             <a
@@ -102,6 +104,25 @@ function Sidebar({ isOpen, onToggle }) {
             </a>
           </li>
         </ul>
+      </div>
+
+      {/* Modal container */}
+      <div className="modal-container" data-modal-container>
+        <div className="overlay" data-overlay></div>
+        <section className="testimonials-modal">
+          <button className="modal-close-btn" data-modal-close-btn>
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+          <div className="modal-img-wrapper">
+            <figure className="modal-avatar-box">
+              <img src={asset('/assets/images/my-avatar.png')} alt="" width="80" data-modal-img />
+            </figure>
+          </div>
+          <div className="modal-content">
+            <h4 className="h3 modal-title" data-modal-title></h4>
+            <div data-modal-text></div>
+          </div>
+        </section>
       </div>
 
     </aside>

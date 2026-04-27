@@ -1,6 +1,8 @@
+import { asset } from '../utils/asset';
+
 const CERTIFICATIONS = [
   {
-    img: '/assets/images/fullstack.jpg',
+    img: asset('/assets/images/fullstack.jpg'),
     alt: 'Fullstack Web Development using NodeJS',
     category: 'Course',
     date: 'Nov 2023',
@@ -9,7 +11,7 @@ const CERTIFICATIONS = [
     text: 'In this course, I have learned HTML, CSS, JS, Nodejs, Expressjs and I have worked with NoSQL databases like MongoDB, Google firebase database.',
   },
   {
-    img: '/assets/images/RDBMS.jpg',
+    img: asset('/assets/images/RDBMS.jpg'),
     alt: 'Introduction to RDBMS',
     category: 'Course',
     date: 'May 15, 2023',
@@ -18,7 +20,7 @@ const CERTIFICATIONS = [
     text: 'In this course, I have learned the concepts of relational Databases.',
   },
   {
-    img: '/assets/images/python.jpg',
+    img: asset('/assets/images/python.jpg'),
     alt: 'Python for Data Science',
     category: 'Course',
     date: 'March 28, 2023',
@@ -27,7 +29,7 @@ const CERTIFICATIONS = [
     text: 'From this course, I have learned python programming language and essentials in language towards Data Science and AI',
   },
   {
-    img: '/assets/images/tableau.jpg',
+    img: asset('/assets/images/tableau.jpg'),
     alt: 'Tableau',
     category: 'Course',
     date: 'Jan 2024',
@@ -36,7 +38,7 @@ const CERTIFICATIONS = [
     text: 'In this course, I have learned data visualization and Analyzing data from visualization and creating dashboard.',
   },
   {
-    img: '/assets/images/cloud.jpg',
+    img: asset('/assets/images/cloud.jpg'),
     alt: 'Cloud Computing',
     category: 'Course',
     date: 'July-Oct, 2023',
@@ -45,7 +47,7 @@ const CERTIFICATIONS = [
     text: 'In this course, I have learned fundamental concepts of cloud computing.',
   },
   {
-    img: '/assets/images/SIH.jpg',
+    img: asset('/assets/images/SIH.jpg'),
     alt: 'Smart India Hackathon',
     category: 'Participation',
     date: 'Sep 27th & 28th, 2023',
@@ -54,7 +56,7 @@ const CERTIFICATIONS = [
     text: 'In this hackathon, We have taken the problem statement "Online Integrated platform for projects taken up by the students of various universities/colleges"',
   },
   {
-    img: '/assets/images/blockchain.jpg',
+    img: asset('/assets/images/blockchain.jpg'),
     alt: 'Blockchain',
     category: 'Course',
     date: 'Dec 2023',
@@ -63,7 +65,7 @@ const CERTIFICATIONS = [
     text: 'In this course, I have learned about Blockchain technology and created NFT, NFT Market place and tokens in Blockchain.',
   },
   {
-    img: '/assets/images/iicc round1.jpg',
+    img: asset('/assets/images/iicc round1.jpg'),
     alt: 'INNOVATE INDIA CODING CHAMPIONSHIP Round 1',
     category: 'Participation',
     date: '20 July 2022',
@@ -72,7 +74,7 @@ const CERTIFICATIONS = [
     text: 'Innovate India Coding Championship is a nationwide coding competition, and in this I have cracked the first round of coding challenges.',
   },
   {
-    img: '/assets/images/iicc round2.jpg',
+    img: asset('/assets/images/iicc round2.jpg'),
     alt: 'INNOVATE INDIA CODING CHAMPIONSHIP Round 2',
     category: 'Participation',
     date: '29 July 2022',
