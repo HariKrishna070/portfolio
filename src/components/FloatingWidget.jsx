@@ -35,7 +35,7 @@ Information about Hari:
   - Intermediate (MPC) - Narayana Junior College (2019-2021), 950/1000
   - High School - Bethesda High School (2019), CGPA: 9.8
 - Projects: Hostel Management Website, Todo Website, Amazon Sales Data Analysis, Covid-19 India Dashboard, Customer Churn Analysis, Sentiment Analysis, World Cup Results 1930-2014.
-- Contact: harikrishnabekkam1590852@gmail.com, Phone: +91 8639669877
+- Contact: DO NOT share Hari's email address or phone number under any circumstances to prevent spam. If the user asks for contact details, strictly tell them to use the "Contact" tab in this chat widget to send him a secure message.
 - Links: LinkedIn (linkedin.com/in/hari-krishna-bekkam-02a630231), GitHub (github.com/HariKrishna070)
 - Resume: Can be downloaded from the Resume tab.
 - Certifications/Achievements: Full Stack Web Dev (NodeJS), RDBMS, Python for Data Science & AI, Tableau, Cloud Computing, Blockchain, Smart India Hackathon finalist (Sep 2023), Kavach Hackathon leader (Apr 2023), Innovate India Coding Championship.
