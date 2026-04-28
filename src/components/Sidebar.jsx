@@ -31,9 +31,14 @@ function Sidebar({ isOpen, onToggle }) {
             </div>
             <div className="contact-info">
               <p className="contact-title">Email</p>
-              <p className="contact-link" style={{ color: 'inherit' }}>
-                Use Contact Form
-              </p>
+              {/* word-break so the long address wraps cleanly on all screens */}
+              <a
+                href="mailto:harikrishnabekkam1590852@gmail.com"
+                className="contact-link"
+                style={{ wordBreak: 'break-all' }}
+              >
+                harikrishnabekkam1590852@gmail.com
+              </a>
             </div>
           </li>
 
@@ -44,9 +49,7 @@ function Sidebar({ isOpen, onToggle }) {
             </div>
             <div className="contact-info">
               <p className="contact-title">Phone</p>
-              <p className="contact-link" style={{ color: 'inherit' }}>
-                Available on Request
-              </p>
+              <a href="tel:+918639669877" className="contact-link">+91 8639669877</a>
             </div>
           </li>
 
