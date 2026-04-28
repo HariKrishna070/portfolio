@@ -9,10 +9,11 @@ const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 const SEND_STATUS = { IDLE: 'idle', SENDING: 'sending', SUCCESS: 'success', ERROR: 'error' };
 
 /* ─── Chatbot knowledge base (Groq AI) ───────────────────────────────────── */
-const groq = new Groq({
-  apiKey: import.meta.env.VITE_GROQ_API_KEY,
+const groqApiKey = import.meta.env.VITE_GROQ_API_KEY || '';
+const groq = groqApiKey ? new Groq({
+  apiKey: groqApiKey,
   dangerouslyAllowBrowser: true
-});
+}) : null;
 
 const SYSTEM_PROMPT = `You are Hari's portfolio assistant. Your job is to answer questions about Hari Krishna Bekkam based ONLY on the following information. Do not make up answers. If the user asks something outside this information, politely decline and suggest they use the Contact tab to reach out to Hari directly. Keep your answers concise, friendly, and use emojis when appropriate.
 
@@ -114,6 +115,10 @@ function FloatingWidget() {
     setTyping(true);
 
     try {
+      if (!groq) {
+        throw new Error("Groq API key is not configured.");
+      }
+
       const apiMessages = [
         { role: 'system', content: SYSTEM_PROMPT },
         ...newMessages.map(msg => ({
