@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
+import Groq from "groq-sdk";
 
 /* ─── EmailJS ────────────────────────────────────────────────────────────── */
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -7,79 +8,39 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 const SEND_STATUS = { IDLE: 'idle', SENDING: 'sending', SUCCESS: 'success', ERROR: 'error' };
 
-/* ─── Chatbot knowledge base ─────────────────────────────────────────────── */
-const BOT_RESPONSES = [
-  {
-    keywords: ['hello', 'hi', 'hey', 'howdy', 'greet'],
-    answer: "👋 Hi there! I'm Hari's portfolio assistant. Ask me anything about his skills, experience, projects, or education!",
-  },
-  {
-    keywords: ['who', 'about', 'yourself', 'introduce', 'hari'],
-    answer: "I'm **HARI KRISHNA BEKKAM** — a passionate Web Developer & Data Scientist from Andhra Pradesh, India. Currently working as a Specialist Programmer at **Infosys**. I love building AI/ML solutions and full-stack web apps! 🚀",
-  },
-  {
-    keywords: ['skill', 'know', 'tech', 'technology', 'language', 'stack'],
-    answer: "🛠️ My core skills include:\n• **AI/ML** — LLMs, RAG, Multi-Agent Systems, Generative AI\n• **Languages** — Python, Data Structures\n• **Databases** — MySQL, MongoDB, Google Firebase\n• **Data Analysis** — Pandas, NumPy, Matplotlib, Seaborn\n• **Visualization Tools** — Tableau, Excel\n• **Web Scraping** — BeautifulSoup, Selenium\n• **Machine Learning** — Supervised, Unsupervised, Feature Engineering\n• **Cloud** — AWS SageMaker",
-  },
-  {
-    keywords: ['experience', 'work', 'job', 'company', 'intern', 'infosys', 'agent'],
-    answer: "💼 My experience:\n1. **Specialist Programmer @ Infosys** (Oct 2025 – Present)\n2. **Machine Learning Engineer (Intern) @ AgentAnalytics.Ai** (Jul 2024 – Sep 2025 · 1 yr 3 months)\n3. **AIML Virtual Intern @ APSCHE-EduSkills** (Sep–Nov 2023)\n4. **Data Analytics Intern @ AICTE** (May–Jul 2023)\n5. **ML Intern @ Barath Intern** (May–Jun 2023)",
-  },
-  {
-    keywords: ['education', 'college', 'university', 'study', 'degree', 'btech', 'vishnu'],
-    answer: "🎓 Education:\n• **B.Tech in CS (AI & Data Science)** — Vishnu Institute of Technology, Bhimavaram (2021–2025), CGPA: 8.9\n• **Intermediate (MPC)** — Narayana Junior College, Vijayawada (2019–2021), 950/1000\n• **High School** — Bethesda High School, Nuzvid (2019), CGPA: 9.8",
-  },
-  {
-    keywords: ['project', 'portfolio', 'build', 'created', 'made'],
-    answer: "🚀 Notable projects:\n• **Hostel Management Website** — Full-stack web app\n• **Todo Website** — React-based task manager\n• **Amazon Sales Data Analysis** — Python EDA project\n• **Covid-19 India Dashboard** — Tableau visualization\n• **Customer Churn Analysis** — ML prediction model\n• **Sentiment Analysis** — NLP project\n• **World Cup Results 1930–2014** — Tableau dashboard",
-  },
-  {
-    keywords: ['contact', 'email', 'reach', 'phone', 'connect', 'message'],
-    answer: "📬 You can reach Hari at:\n• **Email:** harikrishnabekkam1590852@gmail.com\n• **Phone:** +91 8639669877\n• **LinkedIn:** linkedin.com/in/hari-krishna-bekkam-02a630231\n• **GitHub:** github.com/HariKrishna070\n\nOr use the **Contact** tab here to send a message directly! ✉️",
-  },
-  {
-    keywords: ['linkedin', 'github', 'social', 'profile'],
-    answer: "🔗 Find Hari online:\n• **LinkedIn:** [linkedin.com/in/hari-krishna-bekkam-02a630231](https://www.linkedin.com/in/hari-krishna-bekkam-02a630231/)\n• **GitHub:** [github.com/HariKrishna070](https://github.com/HariKrishna070)",
-  },
-  {
-    keywords: ['resume', 'cv', 'download'],
-    answer: "📄 You can download Hari's resume directly from the **Resume** tab on the portfolio! Click the yellow 'DOWNLOAD RESUME' button there.",
-  },
-  {
-    keywords: ['certification', 'course', 'award', 'hackathon', 'sih'],
-    answer: "🏆 Certifications & achievements:\n• Full Stack Web Dev (NodeJS) — Nov 2023\n• Introduction to RDBMS\n• Python for Data Science & AI\n• Tableau — Jan 2024\n• Cloud Computing\n• Blockchain\n• **Smart India Hackathon** finalist — Sep 2023\n• Kavach Hackathon leader — Apr 2023\n• Innovate India Coding Championship",
-  },
-  {
-    keywords: ['python', 'ml', 'machine learning', 'ai', 'artificial', 'llm', 'generative'],
-    answer: "🤖 Hari is deeply into AI/ML! He works with:\n• **LLMs** (Large Language Models) deployment on AWS SageMaker\n• **RAG** (Retrieval-Augmented Generation) pipelines\n• **Multi-Agent Systems** for enterprise GenAI\n• **Generative AI** fine-tuning and prompt engineering\n• Supervised & Unsupervised ML, Feature Engineering",
-  },
-  {
-    keywords: ['birthday', 'born', 'age', 'old'],
-    answer: "🎂 Hari was born on **April 24, 2003** — making him 22 years old and already making waves in AI & software development!",
-  },
-  {
-    keywords: ['location', 'where', 'from', 'place', 'city'],
-    answer: "📍 Hari is from **Edara village, Agiripalli mandal, Eluru district, Andhra Pradesh, India** — currently working at Infosys.",
-  },
-  {
-    keywords: ['thank', 'thanks', 'great', 'awesome', 'cool', 'nice', 'good'],
-    answer: "😊 You're welcome! Feel free to ask anything else about Hari's work, skills, or projects. I'm here to help!",
-  },
-  {
-    keywords: ['bye', 'goodbye', 'see you', 'later'],
-    answer: "👋 Goodbye! Don't forget to connect with Hari on LinkedIn or GitHub. Have a great day! 🌟",
-  },
-];
+/* ─── Chatbot knowledge base (Groq AI) ───────────────────────────────────── */
+const groq = new Groq({
+  apiKey: import.meta.env.VITE_GROQ_API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
-function getBotResponse(input) {
-  const lower = input.toLowerCase();
-  for (const entry of BOT_RESPONSES) {
-    if (entry.keywords.some((kw) => lower.includes(kw))) {
-      return entry.answer;
-    }
-  }
-  return "🤔 I'm not sure about that! Try asking about Hari's **skills**, **experience**, **projects**, **education**, or **contact info**. Or switch to the Contact tab to send him a direct message! 📬";
-}
+const SYSTEM_PROMPT = `You are Hari's portfolio assistant. Your job is to answer questions about Hari Krishna Bekkam based ONLY on the following information. Do not make up answers. If the user asks something outside this information, politely decline and suggest they use the Contact tab to reach out to Hari directly. Keep your answers concise, friendly, and use emojis when appropriate.
+
+Information about Hari:
+- Name: HARI KRISHNA BEKKAM
+- Profession: Web Developer & Data Scientist
+- Location: Edara village, Agiripalli mandal, Eluru district, Andhra Pradesh, India
+- Born: April 24, 2003 (22 years old)
+- Current Role: Specialist Programmer at Infosys (Oct 2025 - Present)
+- Skills: AI/ML (LLMs, RAG, Multi-Agent Systems, Generative AI), Python, Data Structures, MySQL, MongoDB, Firebase, Pandas, NumPy, Matplotlib, Seaborn, Tableau, Excel, BeautifulSoup, Selenium, Machine Learning (Supervised/Unsupervised), AWS SageMaker.
+- Experience:
+  1. Specialist Programmer @ Infosys (Oct 2025 - Present)
+  2. Machine Learning Engineer (Intern) @ AgentAnalytics.Ai (Jul 2024 - Sep 2025)
+  3. AIML Virtual Intern @ APSCHE-EduSkills (Sep-Nov 2023)
+  4. Data Analytics Intern @ AICTE (May-Jul 2023)
+  5. ML Intern @ Barath Intern (May-Jun 2023)
+- Education:
+  - B.Tech in CS (AI & Data Science) - Vishnu Institute of Technology, Bhimavaram (2021-2025), CGPA: 8.9
+  - Intermediate (MPC) - Narayana Junior College (2019-2021), 950/1000
+  - High School - Bethesda High School (2019), CGPA: 9.8
+- Projects: Hostel Management Website, Todo Website, Amazon Sales Data Analysis, Covid-19 India Dashboard, Customer Churn Analysis, Sentiment Analysis, World Cup Results 1930-2014.
+- Contact: harikrishnabekkam1590852@gmail.com, Phone: +91 8639669877
+- Links: LinkedIn (linkedin.com/in/hari-krishna-bekkam-02a630231), GitHub (github.com/HariKrishna070)
+- Resume: Can be downloaded from the Resume tab.
+- Certifications/Achievements: Full Stack Web Dev (NodeJS), RDBMS, Python for Data Science & AI, Tableau, Cloud Computing, Blockchain, Smart India Hackathon finalist (Sep 2023), Kavach Hackathon leader (Apr 2023), Innovate India Coding Championship.
+
+Only answer to the user question related to hari krishna only and give sort and straight forword answers without any extra details.
+`;
 
 /* ─── ChatMessage component ──────────────────────────────────────────────── */
 function ChatMessage({ msg }) {
@@ -142,17 +103,38 @@ function FloatingWidget() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, typing]);
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e?.preventDefault();
     const text = inputVal.trim();
     if (!text) return;
-    setMessages((prev) => [...prev, { role: 'user', text }]);
+
+    const newMessages = [...messages, { role: 'user', text }];
+    setMessages(newMessages);
     setInputVal('');
     setTyping(true);
-    setTimeout(() => {
+
+    try {
+      const apiMessages = [
+        { role: 'system', content: SYSTEM_PROMPT },
+        ...newMessages.map(msg => ({
+          role: msg.role === 'bot' ? 'assistant' : 'user',
+          content: msg.text
+        }))
+      ];
+
+      const completion = await groq.chat.completions.create({
+        model: 'llama-3.1-8b-instant',
+        messages: apiMessages,
+      });
+
+      const botReply = completion.choices[0]?.message?.content || "Sorry, I couldn't understand that.";
+      setMessages((prev) => [...prev, { role: 'bot', text: botReply }]);
+    } catch (error) {
+      console.error("Groq API error:", error);
+      setMessages((prev) => [...prev, { role: 'bot', text: "Oops! Something went wrong while connecting to my brain. Please try again later." }]);
+    } finally {
       setTyping(false);
-      setMessages((prev) => [...prev, { role: 'bot', text: getBotResponse(text) }]);
-    }, 700 + Math.random() * 500);
+    }
   };
 
   const handleContactSubmit = async (e) => {
