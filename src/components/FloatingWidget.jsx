@@ -127,16 +127,50 @@ function FloatingWidget() {
         }))
       ];
 
-      const completion = await groq.chat.completions.create({
-        model: 'llama-3.1-8b-instant',
-        messages: apiMessages,
-      });
+      let botReply = '';
+      const candidateModels = ['openai/gpt-oss-20b', 'qwen/qwen3.8-27b', 'groq/compound-mini'];
+      let lastError = null;
 
-      const botReply = completion.choices[0]?.message?.content || "Sorry, I couldn't understand that.";
+      for (const model of candidateModels) {
+        try {
+          const completion = await groq.chat.completions.create({
+            model,
+            messages: apiMessages,
+          });
+          botReply = completion.choices[0]?.message?.content;
+          if (botReply) break;
+        } catch (err) {
+          console.warn(`Model ${model} failed, trying fallback model...`, err);
+          lastError = err;
+        }
+      }
+
+      if (!botReply) {
+        throw lastError || new Error("Failed to get response from Groq models");
+      }
+
       setMessages((prev) => [...prev, { role: 'bot', text: botReply }]);
     } catch (error) {
       console.error("Groq API error:", error);
-      setMessages((prev) => [...prev, { role: 'bot', text: "Oops! Something went wrong while connecting to my brain. Please try again later." }]);
+      // Fallback response generator if API is unavailable or rate limited
+      const lowerText = text.toLowerCase();
+      let fallbackText = "I'm currently having trouble connecting to my AI brain, but I can tell you that Hari Krishna is an AIML Engineer & Data Scientist currently working as a Specialist Programmer at Infosys! Feel free to check the tabs above or use the Contact form to reach him directly.";
+
+      if (lowerText.includes('skill') || lowerText.includes('tech') || lowerText.includes('stack')) {
+        fallbackText = "Hari's core skills include AI/ML (LLMs, RAG, Multi-Agent Systems, Generative AI), Python, Data Structures, MySQL, MongoDB, Pandas, NumPy, Matplotlib, Seaborn, Tableau, and AWS SageMaker.";
+      } else if (lowerText.includes('exp') || lowerText.includes('work') || lowerText.includes('job') || lowerText.includes('company') || lowerText.includes('infosys')) {
+        fallbackText = "Hari is currently a Specialist Programmer at Infosys (Oct 2025 - Present). Previously, he was an ML Engineer Intern at AgentAnalytics.Ai, and interned at APSCHE-EduSkills, AICTE, and Bharat Intern.";
+      } else if (lowerText.includes('edu') || lowerText.includes('college') || lowerText.includes('degree') || lowerText.includes('btech')) {
+        fallbackText = "Hari holds a B.Tech in CS (AI & Data Science) from Vishnu Institute of Technology, Bhimavaram (CGPA: 8.9), and did Intermediate (MPC) with 950/1000.";
+      } else if (lowerText.includes('project')) {
+        fallbackText = "Hari has built several exciting projects including a Hostel Management Website, Todo Website, Amazon Sales Data Analysis, and Covid-19 India Dashboard. You can explore them in the Projects section!";
+      } else if (lowerText.includes('contact') || lowerText.includes('email') || lowerText.includes('phone') || lowerText.includes('reach')) {
+        fallbackText = "To reach Hari directly, please switch to the 'Contact' tab right here in this widget to send him a secure message, or connect on LinkedIn!";
+      } else if (lowerText.includes('resume') || lowerText.includes('cv')) {
+        fallbackText = "You can view and download Hari's updated resume directly from the Resume section of this portfolio!";
+      }
+
+      setMessages((prev) => [...prev, { role: 'bot', text: fallbackText }]);
     } finally {
       setTyping(false);
     }
