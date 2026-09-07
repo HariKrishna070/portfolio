@@ -33,11 +33,11 @@ function Sidebar({ isOpen, onToggle }) {
               <p className="contact-title">Email</p>
               {/* word-break so the long address wraps cleanly on all screens */}
               <a
-                href="mailto:harikrishnabekkam1590852@gmail.com"
+                href="mailto:harikrishna.bekkam01@gmail.com"
                 className="contact-link"
                 style={{ wordBreak: 'break-all' }}
               >
-                harikrishnabekkam1590852@gmail.com
+                harikrishna.bekkam01@gmail.com
               </a>
             </div>
           </li>
