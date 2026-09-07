@@ -26,7 +26,7 @@ Information about Hari:
 - Skills: AI/ML (LLMs, RAG, Multi-Agent Systems, Generative AI), Python, Data Structures, MySQL, MongoDB, Firebase, Pandas, NumPy, Matplotlib, Seaborn, Tableau, Excel, BeautifulSoup, Selenium, Machine Learning (Supervised/Unsupervised), AWS SageMaker.
 - Experience:
   1. Specialist Programmer @ Infosys (Oct 2025 - Present)
-  2. Machine Learning Engineer (Intern) @ AgentAnalytics.Ai (Jul 2024 - Sep 2025)
+  2. Agentic AI Engineer @ AgentAnalytics.AI (Jul 2024 - Sep 2025)
   3. AIML Virtual Intern @ APSCHE-EduSkills (Sep-Nov 2023)
   4. Data Analytics Intern @ AICTE (May-Jul 2023)
   5. ML Intern @ Barath Intern (May-Jun 2023)
@@ -34,7 +34,7 @@ Information about Hari:
   - B.Tech in CS (AI & Data Science) - Vishnu Institute of Technology, Bhimavaram (2021-2025), CGPA: 8.9
   - Intermediate (MPC) - Narayana Junior College (2019-2021), 950/1000
   - High School - Bethesda High School (2019), CGPA: 9.8
-- Projects: Hostel Management Website, Todo Website, Amazon Sales Data Analysis, Covid-19 India Dashboard, Customer Churn Analysis, Sentiment Analysis, World Cup Results 1930-2014.
+- Projects: ConvoTree (Agentic AI Conversation & Cognitive Memory Platform with Mem0, FastAPI, LangGraph, React), Hostel Management Website, Todo Website, Amazon Sales Data Analysis, Covid-19 India Dashboard, Customer Churn Analysis, Sentiment Analysis, World Cup Results 1930-2014.
 - Contact: DO NOT share Hari's email address or phone number under any circumstances to prevent spam. If the user asks for contact details, strictly tell them to use the "Contact" tab in this chat widget to send him a secure message.
 - Links: LinkedIn (linkedin.com/in/hari-krishna-bekkam-02a630231), GitHub (github.com/HariKrishna070)
 - Resume: Can be downloaded from the Resume tab.
@@ -159,11 +159,11 @@ function FloatingWidget() {
       if (lowerText.includes('skill') || lowerText.includes('tech') || lowerText.includes('stack')) {
         fallbackText = "Hari's core skills include AI/ML (LLMs, RAG, Multi-Agent Systems, Generative AI), Python, Data Structures, MySQL, MongoDB, Pandas, NumPy, Matplotlib, Seaborn, Tableau, and AWS SageMaker.";
       } else if (lowerText.includes('exp') || lowerText.includes('work') || lowerText.includes('job') || lowerText.includes('company') || lowerText.includes('infosys')) {
-        fallbackText = "Hari is currently a Specialist Programmer at Infosys (Oct 2025 - Present). Previously, he was an ML Engineer Intern at AgentAnalytics.Ai, and interned at APSCHE-EduSkills, AICTE, and Bharat Intern.";
+        fallbackText = "Hari is currently a Specialist Programmer at Infosys (Oct 2025 - Present). Previously, he was an Agentic AI Engineer at AgentAnalytics.AI (Jul 2024 - Sep 2025), and interned at APSCHE-EduSkills, AICTE, and Bharat Intern.";
       } else if (lowerText.includes('edu') || lowerText.includes('college') || lowerText.includes('degree') || lowerText.includes('btech')) {
         fallbackText = "Hari holds a B.Tech in CS (AI & Data Science) from Vishnu Institute of Technology, Bhimavaram (CGPA: 8.9), and did Intermediate (MPC) with 950/1000.";
       } else if (lowerText.includes('project')) {
-        fallbackText = "Hari has built several exciting projects including a Hostel Management Website, Todo Website, Amazon Sales Data Analysis, and Covid-19 India Dashboard. You can explore them in the Projects section!";
+        fallbackText = "Hari has built several exciting projects including ConvoTree (Agentic AI Conversation & Cognitive Memory Platform), Hostel Management Website, Todo Website, Amazon Sales Data Analysis, and Covid-19 India Dashboard. You can explore them in the Projects section!";
       } else if (lowerText.includes('contact') || lowerText.includes('email') || lowerText.includes('phone') || lowerText.includes('reach')) {
         fallbackText = "To reach Hari directly, please switch to the 'Contact' tab right here in this widget to send him a secure message, or connect on LinkedIn!";
       } else if (lowerText.includes('resume') || lowerText.includes('cv')) {

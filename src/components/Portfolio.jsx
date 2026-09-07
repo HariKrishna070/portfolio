@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { asset } from '../utils/asset';
 
 const PROJECTS = [
+  {
+    title: 'ConvoTree – Agentic AI Conversation & Cognitive Memory Platform',
+    category: 'ai',
+    img: asset('/assets/images/convotree.svg'),
+    href: 'https://github.com/HariKrishna070',
+  },
   { title: 'Hostel Management Website',            category: 'web development', img: asset('/assets/images/hostel.png'),                             href: 'https://github.com/HariKrishna070/miniProject' },
   { title: 'Todo website',                         category: 'web development', img: asset('/assets/images/todo.png'),                               href: 'https://github.com/HariKrishna070/Final-capston-project' },
   { title: 'Amazon Sales Data Analysis',           category: 'data analysis',   img: asset('/assets/images/amazon.png'),                             href: 'https://github.com/HariKrishna070/EDA-on-Amazon-Sales-dataset-using-Python' },
@@ -11,7 +17,7 @@ const PROJECTS = [
   { title: 'World Cup Results Analysis 1930-2014', category: 'tableau',         img: asset('/assets/images/World Cup Results 1930-2014.png'),         href: 'https://public.tableau.com/app/profile/hari.krishna.bekkam/viz/WorldCupResults1930-2014_17147142485360/Dashboard1?publish=yes' },
 ];
 
-const FILTER_BUTTONS = ['All', 'Data Analysis', 'Tableau', 'Web development'];
+const FILTER_BUTTONS = ['All', 'AI', 'Data Analysis', 'Tableau', 'Web development'];
 
 function Portfolio({ isActive }) {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -97,7 +103,7 @@ function Portfolio({ isActive }) {
                     />
                   </figure>
                   <h3 className="project-title">{project.title}</h3>
-                  <p className="project-category">{project.category}</p>
+                  <p className="project-category">{project.category === 'ai' ? 'AI' : project.category}</p>
                 </a>
               </li>
             );

@@ -1,7 +1,7 @@
 const NAV_ITEMS = [
   { label: 'About',          page: 'about'          },
   { label: 'Resume',         page: 'resume'         },
-  { label: 'Experinece',     page: 'experinece'     },
+  { label: 'Experience',     page: 'experinece'     },
   { label: 'Portfolio',      page: 'portfolio'      },
   { label: 'Certifications', page: 'certifications' },
 ];
